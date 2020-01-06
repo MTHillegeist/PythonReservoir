@@ -5,35 +5,16 @@ from OpenGL.GLUT import *
 import sys, time
 from math import sin,cos,sqrt,pi
 import Reservoir
+from Draw import *
 
 print(sys.version)
 print("Testing of Main.py")
 
 
 
-edges = (
-	(0, 1),
-	(1, 2),
-	(2, 0))
+
 
 lastFrameTime = time.time()
-
-
-
-
-
-def TriangleEquil(radius = 0.5):
-	angleThird = 2.0 * pi / 3
-	topAngle = pi / 2
-	vertices = (
-	(radius * cos(topAngle-angleThird), radius * sin(topAngle-angleThird), 0),
-	(0.0, radius, 0),
-	(radius * cos(topAngle + angleThird), radius * sin(topAngle + angleThird), 0))
-	glBegin(GL_LINES)
-	for edge in edges:
-		for vertex in edge:
-			glVertex3fv(vertices[vertex])
-	glEnd()
 
 def draw():
 	delta_t = time.time() - lastFrameTime
@@ -44,17 +25,41 @@ def draw():
 	glColor3f(1.0, 1.0, 1.0)
 	glLoadIdentity()
 	#Triangle()
-	gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-	glScalef(1.0, 2.0, 1.0)
-	glutWireCube(1.0)
+	#gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+	#glScalef(1.0, 2.0, 1.0)
+	glPushMatrix()
+	glRotatef(45.0 , 1.0, 1.0, 0.0)
+	#glutWireCube(1.0)
 	glFlush()
-	#glPushMatrix()
+	glPopMatrix()
 	#glRotatef(angle, 1.0, 1.0, 1.0)
 
 	#glCallList(triangle1)
 	#glCallList(cube1)
 	#glCallList(res1)
 	#glPopMatrix()
+	glutSwapBuffers()
+
+def draw_cube_test():
+	delta_t = time.time() - lastFrameTime
+	#lastFrameTime = time.time()
+
+	angle = 10 * delta_t
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+	glColor3f(1.0, 1.0, 1.0)
+
+	glLoadIdentity()
+	#gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+	#glScalef(1.0, 2.0, 1.0)
+	glPushMatrix()
+	#glRotatef(45.0 , 1.0, 1.0, 0.0)
+	glScalef(0.5, 0.5, 0.5)
+	#glutSolidCube(1.0)
+	glCallList(cube1)
+	#glCallList(triangle1)
+	glFlush()
+	glPopMatrix()
+
 	glutSwapBuffers()
 
 
@@ -67,7 +72,7 @@ def init():
 	global res1
 	global resSpecs1
 	resSpecs1 = Reservoir.Reservoir(10,10,10,0.3)
-	print("Init()")
+	#print("Init()")
 	red = (0.8, 0.1, 0.0, 1.0)
 	blue = (0.0, 0.0, 1.0, 1.0)
 
@@ -83,7 +88,7 @@ def init():
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, red)
 	glColor3f(red[0], red[1], red[2])
 	glPolygonMode(GL_FRONT, GL_FILL)
-	Reservoir.DrawCube()
+	DrawCube()
 	glEndList()
 
 	res1 = glGenLists(1)
@@ -95,8 +100,9 @@ def init():
 	glEndList()
 
 	lastFrameTime = time.time()
-	print(lastFrameTime)
+	#print(lastFrameTime)
 	angle = 0.0
+	#print("End Init()")
 
 main()
 glutInit()
@@ -105,6 +111,6 @@ glutInitWindowSize(500, 500)
 glutInitWindowPosition(0, 0)
 glutCreateWindow(b"OpenGL Testing")
 init()
-glutDisplayFunc(draw)
-glutIdleFunc(draw)
+glutDisplayFunc(draw_cube_test)
+glutIdleFunc(draw_cube_test)
 glutMainLoop()

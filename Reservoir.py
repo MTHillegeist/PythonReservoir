@@ -5,6 +5,7 @@ from OpenGL.GLUT import *
 import sys
 from math import sin,cos,sqrt,pi
 from operator import add
+import Draw
 
 class Cell(object):
 	def __init__(self):
@@ -38,7 +39,7 @@ def DrawGrid(res):
 	glPushMatrix()
 	glScalef(cell_dim, cell_dim, cell_dim)
 
-	print("cell_dim: % f" % cell_dim)
+	#print("cell_dim: % f" % cell_dim)
 	#print("Width: %d Height: %d Depth: %d" %(res.width, res.height, res.depth))
 	for i in range(res.width-1):
 		for j in range(res.height-1):
@@ -54,41 +55,13 @@ def DrawGrid(res):
 				oilColor = [oilWeight * x for x in red]
 				wtrColor = [wtrWeight * x for x in blue]
 				cell_color = list(map(add, oilColor, wtrColor))
-				print(cell_color)
+				#print(cell_color)
 				#print("(% f, % f, % f)" % ( x, y, z))
 				glColor3f(cell_color[0], cell_color[1], cell_color[2])
 
-				DrawCube()
+				#Draw.DrawCube()
+				glutSolidCube(1.0)
 				glPopMatrix()
 		#input()
 
 	glPopMatrix()
-
-#draw a cube, dimensions of 1 all directions, centered at 0,0,0
-def DrawCube():
-
-	vertices = (
-		(-0.5, 0.5, 0.5), #0
-		(-0.5, -0.5, 0.5), #1
-		(0.5, -0.5, 0.5), #2
-		(0.5, 0.5, 0.5), #3
-		(0.5, 0.5, -0.5), #4
-		(-0.5, 0.5, -0.5), #5
-		(-0.5, -0.5, -0.5), #6
-		(0.5, -0.5, -0.5) #7
-		)
-
-	tris = (
-	(0, 1, 2), (0, 2, 3), #Front
-	(0, 3, 5), (5, 3, 4), #Top
-	(1, 6, 2), (2, 6, 7), #Bottom
-	(5, 1, 0), (5, 6, 1), #Left
-	(3, 2, 7), (3, 7, 4), #right
-	(5, 7, 4), (5, 6, 7)) #back
-
-	glBegin(GL_TRIANGLES)
-	for tri in tris:
-		for index in tri:
-			glColor3f(vertices[index][0], vertices[index][1], vertices[index][2])
-			glVertex3fv(vertices[index])
-	glEnd()
