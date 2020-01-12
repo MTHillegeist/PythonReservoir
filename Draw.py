@@ -52,25 +52,25 @@ def DrawCube():
 	glBegin(GL_TRIANGLES)
 
 	for faceIndex in range(0, 6):
-		print("Begin drawing face %d" % faceIndex)
+		#print("Begin drawing face %d" % faceIndex)
 		glNormal3f(normals[faceIndex][0], normals[faceIndex][1], normals[faceIndex][2])
 		glColor3f(colors[faceIndex][0], colors[faceIndex][1], colors[faceIndex][2])
 
 		tri = tris[faceIndex * 2]
-		print(tri)
+		#print(tri)
 
 		glVertex3fv(vertices[tri[0]])
 		glVertex3fv(vertices[tri[1]])
 		glVertex3fv(vertices[tri[2]])
 
 		tri = tris[faceIndex * 2 + 1]
-		print(tri)
+		#print(tri)
 
 		glVertex3fv(vertices[tri[0]])
 		glVertex3fv(vertices[tri[1]])
 		glVertex3fv(vertices[tri[2]])
 
-		print("End Drawing Face")
+		#print("End Drawing Face")
 
 	#Drawing front face
 	# glNormal3f(normals[0][0], normals[0][1], normals[0][1])

@@ -15,7 +15,14 @@ lastFrameTime = time.time()
 runTime = 0
 
 def draw():
-	angle = 10 * delta_t
+	global lastFrameTime
+	global runTime
+
+	delta_t = time.time() - lastFrameTime
+	lastFrameTime = time.time()
+	runTime = runTime + delta_t
+	angle = 20.0 * runTime % 360
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glColor3f(1.0, 1.0, 1.0)
 	glLoadIdentity()
@@ -23,8 +30,9 @@ def draw():
 	#gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 	#glScalef(1.0, 2.0, 1.0)
 	glPushMatrix()
-	glRotatef(45.0 , 1.0, 1.0, 0.0)
+	glRotatef(angle , 1.0, 1.0, 0.0)
 	#glutWireCube(1.0)
+	glCallList(res1)
 	glFlush()
 	glPopMatrix()
 	#glRotatef(angle, 1.0, 1.0, 1.0)
@@ -48,13 +56,9 @@ def draw_cube_test():
 	glColor3f(1.0, 1.0, 1.0)
 
 	glLoadIdentity()
-	#gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-	#glScalef(1.0, 2.0, 1.0)
 	glPushMatrix()
-	glRotatef(angle, 0.0, 1.0, 0.0)
-	#glutSolidCube(1.0)
+	glRotatef(angle, 1.0, 1.0, 0.0)
 	glCallList(cube1)
-	#glCallList(triangle1)
 	glFlush()
 	glPopMatrix()
 
@@ -108,6 +112,6 @@ glutInitWindowSize(500, 500)
 glutInitWindowPosition(0, 0)
 glutCreateWindow(b"OpenGL Testing")
 init()
-glutDisplayFunc(draw_cube_test)
-glutIdleFunc(draw_cube_test)
+glutDisplayFunc(draw)
+glutIdleFunc(draw)
 glutMainLoop()

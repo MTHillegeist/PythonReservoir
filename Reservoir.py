@@ -60,7 +60,8 @@ def DrawGrid(res):
 				glColor3f(cell_color[0], cell_color[1], cell_color[2])
 
 				#Draw.DrawCube()
-				glutSolidCube(1.0)
+				#glutSolidCube(1.0)
+				glutWireCube(cell_dim)
 				glPopMatrix()
 		#input()
 
