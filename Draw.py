@@ -23,7 +23,7 @@ tris = (
 (1, 6, 7), (1, 7, 2), #Bottom
 (5, 1, 0), (5, 6, 1), #Left
 (3, 2, 7), (3, 7, 4), #right
-(5, 7, 4), (5, 6, 7)) #back
+(5, 4, 7), (5, 7, 6)) #back
 
 normals = (
 (0.0, 0.0, 1.0),  #Front
@@ -33,40 +33,57 @@ normals = (
 (1.0, 0.0, 0.0),  #Right
 (0.0, 0.0, -1.0)) #Back
 
+colors = (
+(1.0, 0.0, 0.0),
+(0.0, 1.0, 0.0),
+(0.0, 0.0, 1.0),
+(1.0, 0.0, 1.0),
+(1.0, 1.0, 0.0),
+(0.0, 1.0, 1.0)
+)
 
 
-#draw a cube, dimensions of 1 all directions, centered at 0,0,0
+
+#Draw a cube, dimensions of 1 all directions, centered at 0,0,0
+#Using this function to draw cubes since it will be easy to extend
+#in the future to color certain vertices, render points at the corners, etc.
 def DrawCube():
 
 	glBegin(GL_TRIANGLES)
 
-	# for faceIndex in range(0, 1):
-	# 	glNormal3f(normals[faceIndex * 2][0], normals[faceIndex * 2][1], normals[faceIndex * 2][2])
-	# 	print("Begin drawing face %d" % faceIndex)
-	# 	tri = vertices[faceIndex * 2]
-	# 	glColor3f(tri[0], tri[1], tri[2])
-	# 	glVertex3fv(tri)
-	# 	print(tri)
-	#
-	# 	tri = vertices[faceIndex * 2 + 1]
-	# 	glColor3f(tri[0], tri[1], tri[2])
-	# 	glVertex3fv(tri)
-	# 	print(tri)
+	for faceIndex in range(0, 6):
+		print("Begin drawing face %d" % faceIndex)
+		glNormal3f(normals[faceIndex][0], normals[faceIndex][1], normals[faceIndex][2])
+		glColor3f(colors[faceIndex][0], colors[faceIndex][1], colors[faceIndex][2])
 
-		#print("End Drawing Face")
+		tri = tris[faceIndex * 2]
+		print(tri)
+
+		glVertex3fv(vertices[tri[0]])
+		glVertex3fv(vertices[tri[1]])
+		glVertex3fv(vertices[tri[2]])
+
+		tri = tris[faceIndex * 2 + 1]
+		print(tri)
+
+		glVertex3fv(vertices[tri[0]])
+		glVertex3fv(vertices[tri[1]])
+		glVertex3fv(vertices[tri[2]])
+
+		print("End Drawing Face")
 
 	#Drawing front face
-	glNormal3f(normals[0][0], normals[0][1], normals[0][1])
-	glColor3f(1.0, 0.0, 0.0)
-	tri = tris[0]
-	glVertex3fv(vertices[tri[0]])
-	glVertex3fv(vertices[tri[1]])
-	glVertex3fv(vertices[tri[2]])
-
-	tri = tris[1]
-	glVertex3fv(vertices[tri[0]])
-	glVertex3fv(vertices[tri[1]])
-	glVertex3fv(vertices[tri[2]])
+	# glNormal3f(normals[0][0], normals[0][1], normals[0][1])
+	# glColor3f(1.0, 0.0, 0.0)
+	# tri = tris[0]
+	# glVertex3fv(vertices[tri[0]])
+	# glVertex3fv(vertices[tri[1]])
+	# glVertex3fv(vertices[tri[2]])
+	#
+	# tri = tris[1]
+	# glVertex3fv(vertices[tri[0]])
+	# glVertex3fv(vertices[tri[1]])
+	# glVertex3fv(vertices[tri[2]])
 
 
 

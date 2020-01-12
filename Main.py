@@ -10,16 +10,11 @@ from Draw import *
 print(sys.version)
 print("Testing of Main.py")
 
-
-
-
-
+#Globals.
 lastFrameTime = time.time()
+runTime = 0
 
 def draw():
-	delta_t = time.time() - lastFrameTime
-	#lastFrameTime = time.time()
-
 	angle = 10 * delta_t
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glColor3f(1.0, 1.0, 1.0)
@@ -41,10 +36,14 @@ def draw():
 	glutSwapBuffers()
 
 def draw_cube_test():
-	delta_t = time.time() - lastFrameTime
-	#lastFrameTime = time.time()
+	global lastFrameTime
+	global runTime
 
-	angle = 10 * delta_t
+	delta_t = time.time() - lastFrameTime
+	lastFrameTime = time.time()
+	runTime = runTime + delta_t
+	angle = 20.0 * runTime % 360
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glColor3f(1.0, 1.0, 1.0)
 
@@ -52,8 +51,7 @@ def draw_cube_test():
 	#gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 	#glScalef(1.0, 2.0, 1.0)
 	glPushMatrix()
-	#glRotatef(45.0 , 1.0, 1.0, 0.0)
-	glScalef(0.5, 0.5, 0.5)
+	glRotatef(angle, 0.0, 1.0, 0.0)
 	#glutSolidCube(1.0)
 	glCallList(cube1)
 	#glCallList(triangle1)
@@ -62,15 +60,15 @@ def draw_cube_test():
 
 	glutSwapBuffers()
 
-
-def main():
-	print("Main")
-
 def init():
 	global triangle1
 	global cube1
 	global res1
 	global resSpecs1
+
+	#glCullFace(GL_BACK)
+	glEnable(GL_CULL_FACE)
+
 	resSpecs1 = Reservoir.Reservoir(10,10,10,0.3)
 	#print("Init()")
 	red = (0.8, 0.1, 0.0, 1.0)
@@ -104,7 +102,6 @@ def init():
 	angle = 0.0
 	#print("End Init()")
 
-main()
 glutInit()
 glutInitDisplayMode(GLUT_RGBA)
 glutInitWindowSize(500, 500)
