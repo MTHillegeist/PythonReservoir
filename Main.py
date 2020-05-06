@@ -31,10 +31,21 @@ class Application(object):
 		#glCullFace(GL_FRONT_AND_BACK)
 		glEnable(GL_CULL_FACE)
 		# glDisable(GL_CULL_FACE)
-		glMatrixMode(GL_PROJECTION)
+		glMatrixMode(GL_MODELVIEW)
 
-		#resSpecs1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.3)
-		resSpecs1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.3)
+		# resSpecs1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.3)
+		resSpecs1 = Reservoir.Reservoir(width=2, height=2, depth=2, cell_dim=.8)
+
+		# region = ResRegion()
+		# region.iStart = floor(width / 4)
+		# region.iEnd = floor(width / 4 * 3)
+		# region.jStart = floor(height / 4)
+		# region.jEnd = floor(height / 4 * 3)
+		# region.kStart = floor(depth / 4)
+		# region.kEnd = floor(depth / 4 * 3)
+		#
+		# resSpecs1.SetCellsValue(region, "wtrPct", 100.0)
+		# resSpecs1.SetCellsValue(region, "oilPct", 0.0)
 
 		red = (0.8, 0.1, 0.0, 1.0)
 		blue = (0.0, 0.0, 1.0, 1.0)
@@ -57,7 +68,7 @@ class Application(object):
 		glNewList(self.res1, GL_COMPILE)
 		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, red)
 		glPolygonMode(GL_FRONT, GL_FILL) #(GL_FRONT_AND_BACK, GL_LINE)
-		Reservoir.DrawGrid(resSpecs1)
+		Draw.draw_res(resSpecs1)
 		glEndList()
 
 		self.lastFrameTime = time.time()

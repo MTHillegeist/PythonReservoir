@@ -4,8 +4,6 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
 from math import sin,cos,sqrt,pi,floor
-#from operator import add
-import operator
 import Draw
 
 class ResRegion(object):
@@ -39,24 +37,10 @@ class Reservoir(object):
 		#Creates grid with a new defualt Cell for every element.
 		self.grid = [[[Cell() for _ in range(width)] for _ in range(height)] for _ in range(depth)]
 
-		region = ResRegion()
-		region.iStart = floor(width / 4)
-		region.iEnd = floor(width / 4 * 3)
-		region.jStart = floor(height / 4)
-		region.jEnd = floor(height / 4 * 3)
-		region.kStart = floor(depth / 4)
-		region.kEnd = floor(depth / 4 * 3)
-
-		self.SetCellsValue(region, "wtrPct", 100.0)
-		self.SetCellsValue(region, "oilPct", 0.0)
-
-		# for i in range(self.width-1):
-		# 	for j in range(self.height-1):
-		# 		for k in range(self.depth-1):
-		# 			#Set properties of the current cell.
-		# 			if i % 2 == 1:
-		# 				self.grid[i][j][k].oilPct = 0.0
-		# 				self.grid[i][j][k].wtrPct = 100.0
+		# for i in range(self.width):
+		# 	for j in range(self.height):
+		# 		for k in range(self.depth):
+		# 			print(self.grid[i][j][k])
 
 	def SetCellsValue(self, region, source, value):
 		for i in range(region.iStart,region.iEnd):
@@ -68,41 +52,3 @@ class Reservoir(object):
 					cell.wtrPct = 100.0
 					# cell_prop = getattr(cell, source)
 					# cell_prop = value
-
-def DrawGrid(res):
-	red = (0.8, 0.1, 0.0, 1.0)
-	blue = (0.0, 0.0, 0.8, 1.0)
-	cell_dim = res.cell_dim
-	glPushMatrix()
-	glScalef(cell_dim, cell_dim, cell_dim)
-
-	#print("cell_dim: % f" % cell_dim)
-	#print("Width: %d Height: %d Depth: %d" %(res.width, res.height, res.depth))
-	for i in range(res.width-1):
-		for j in range(res.height-1):
-			for k in range(res.depth-1):
-				glPushMatrix()
-				x = -res.width / 2 *cell_dim + i * cell_dim
-				y = -res.height / 2 *cell_dim + j * cell_dim
-				z = - k * cell_dim
-				glTranslatef(x, y, z)
-				oilWeight = res.grid[i][j][k].oilPct / 100.0
-				wtrWeight = res.grid[i][j][k].wtrPct / 100.0
-				#print("Oil: %.1f Water; %.1f" % (oilWeight, wtrWeight))
-				oilColor = [oilWeight * x for x in red]
-				wtrColor = [wtrWeight * x for x in blue]
-				cell_color = list(map(operator.add, oilColor, wtrColor))
-				#print(cell_color)
-				#print("(% f, % f, % f)" % ( x, y, z))
-				glColor3f(cell_color[0], cell_color[1], cell_color[2])
-
-				# glPushMatrix()
-				# glScalef(cell_dim, cell_dim, cell_dim)
-				# Draw.DrawCube()
-				# glPopMatrix()
-				#glutSolidCube(cell_dim)
-				glutWireCube(cell_dim)
-				glPopMatrix()
-		#input()
-
-	glPopMatrix()

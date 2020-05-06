@@ -4,7 +4,7 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
 from math import sin,cos,sqrt,pi
-from operator import add
+import operator
 
 vertices = (
 	(-0.5, 0.5, 0.5),   #0
@@ -107,3 +107,41 @@ def TriangleEquil(radius = 0.5):
 		for vertex in edge:
 			glVertex3fv(vertices[vertex])
 	glEnd()
+
+def draw_res(res):
+	red = (0.8, 0.1, 0.0, 1.0)
+	blue = (0.0, 0.0, 0.8, 1.0)
+	cell_dim = res.cell_dim
+	glPushMatrix()
+	glScalef(cell_dim, cell_dim, cell_dim)
+
+	#print("cell_dim: % f" % cell_dim)
+	#print("Width: %d Height: %d Depth: %d" %(res.width, res.height, res.depth))
+	for i in range(res.width):
+		for j in range(res.height):
+			for k in range(res.depth):
+				glPushMatrix()
+				x = -res.width / 2 *cell_dim + i * cell_dim
+				y = -res.height / 2 *cell_dim + j * cell_dim
+				z = - k * cell_dim
+				glTranslatef(x, y, z)
+				oilWeight = res.grid[i][j][k].oilPct / 100.0
+				wtrWeight = res.grid[i][j][k].wtrPct / 100.0
+				#print("Oil: %.1f Water; %.1f" % (oilWeight, wtrWeight))
+				oilColor = [oilWeight * x for x in red]
+				wtrColor = [wtrWeight * x for x in blue]
+				cell_color = list(map(operator.add, oilColor, wtrColor))
+				#print(cell_color)
+				#print("(% f, % f, % f)" % ( x, y, z))
+				glColor3f(cell_color[0], cell_color[1], cell_color[2])
+
+				# glPushMatrix()
+				# glScalef(cell_dim, cell_dim, cell_dim)
+				# Draw.DrawCube()
+				# glPopMatrix()
+				#glutSolidCube(cell_dim)
+				glutWireCube(cell_dim)
+				glPopMatrix()
+		#input()
+
+	glPopMatrix()
