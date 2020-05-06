@@ -3,6 +3,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys, time
+import math
 from math import sin,cos,sqrt,pi
 import Reservoir
 import Draw
@@ -17,8 +18,27 @@ class Camera:
 		self.pos = (0, 2, 2)
 		self.up = (0, 1, 0)
 
-
 class Application(object):
+
+	def define_reservoir1():
+		res1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.3)
+
+		region = Reservoir.ResRegion()
+		region.iStart = 1
+		region.iEnd = 8
+		region.jStart = 1
+		region.jEnd = 8
+		region.kStart = 1
+		region.kEnd = 8
+
+		res1.SetCellsValue(region, "wtrPct", 100.0)
+		res1.SetCellsValue(region, "oilPct", 0.0)
+
+		return res1
+
+	def define_reservoir2():
+		return Reservoir.Reservoir(width=4, height=4, depth=4, cell_dim=0.8)
+
 	def __init__(self):
 		super(Application, self).__init__()
 		self.lastFrameTime = time.time()
@@ -33,19 +53,7 @@ class Application(object):
 		# glDisable(GL_CULL_FACE)
 		glMatrixMode(GL_MODELVIEW)
 
-		# resSpecs1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.3)
-		resSpecs1 = Reservoir.Reservoir(width=2, height=2, depth=2, cell_dim=.8)
-
-		# region = ResRegion()
-		# region.iStart = floor(width / 4)
-		# region.iEnd = floor(width / 4 * 3)
-		# region.jStart = floor(height / 4)
-		# region.jEnd = floor(height / 4 * 3)
-		# region.kStart = floor(depth / 4)
-		# region.kEnd = floor(depth / 4 * 3)
-		#
-		# resSpecs1.SetCellsValue(region, "wtrPct", 100.0)
-		# resSpecs1.SetCellsValue(region, "oilPct", 0.0)
+		resSpecs1 = Application.define_reservoir1()
 
 		red = (0.8, 0.1, 0.0, 1.0)
 		blue = (0.0, 0.0, 1.0, 1.0)

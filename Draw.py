@@ -121,9 +121,10 @@ def draw_res(res):
 		for j in range(res.height):
 			for k in range(res.depth):
 				glPushMatrix()
-				x = -res.width / 2 *cell_dim + i * cell_dim
-				y = -res.height / 2 *cell_dim + j * cell_dim
-				z = - k * cell_dim
+				x = (-res.width  / 2) *cell_dim + i * cell_dim + cell_dim / 2
+				y = (-res.height / 2) *cell_dim + j * cell_dim + cell_dim / 2
+				z = (-res.depth  / 2) *cell_dim + k * cell_dim + cell_dim / 2
+				print("X:{} Y:{} Z:{}", x, y, z)
 				glTranslatef(x, y, z)
 				oilWeight = res.grid[i][j][k].oilPct / 100.0
 				wtrWeight = res.grid[i][j][k].wtrPct / 100.0

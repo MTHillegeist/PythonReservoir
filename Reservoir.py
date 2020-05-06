@@ -43,9 +43,9 @@ class Reservoir(object):
 		# 			print(self.grid[i][j][k])
 
 	def SetCellsValue(self, region, source, value):
-		for i in range(region.iStart,region.iEnd):
-			for j in range(region.jStart,region.jEnd):
-				for k in range(region.kStart,region.kEnd):
+		for i in range(region.iStart,region.iEnd + 1):
+			for j in range(region.jStart,region.jEnd + 1):
+				for k in range(region.kStart,region.kEnd + 1):
 					#Set properties of the current cell.
 					cell = self.grid[i][j][k]
 					cell.oilPct = 0.0
