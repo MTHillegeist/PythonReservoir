@@ -96,7 +96,10 @@ def DrawGrid(res):
 				#print("(% f, % f, % f)" % ( x, y, z))
 				glColor3f(cell_color[0], cell_color[1], cell_color[2])
 
-				#Draw.DrawCube()
+				# glPushMatrix()
+				# glScalef(cell_dim, cell_dim, cell_dim)
+				# Draw.DrawCube()
+				# glPopMatrix()
 				#glutSolidCube(cell_dim)
 				glutWireCube(cell_dim)
 				glPopMatrix()
