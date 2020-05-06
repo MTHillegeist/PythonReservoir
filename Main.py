@@ -1,11 +1,11 @@
-from OpenGL import *
+#from OpenGL import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys, time
 from math import sin,cos,sqrt,pi
 import Reservoir
-from Draw import *
+import Draw
 
 print(sys.version)
 print("Testing of Main.py")
@@ -28,7 +28,7 @@ class Application(object):
 		self.triangle1 = glGenLists(1)
 		glNewList(self.triangle1, GL_COMPILE)
 		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, red)
-		TriangleEquil()
+		Draw.TriangleEquil()
 		glEndList()
 
 
@@ -37,7 +37,7 @@ class Application(object):
 		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, red)
 		glColor3f(red[0], red[1], red[2])
 		glPolygonMode(GL_FRONT, GL_FILL)
-		DrawCube()
+		Draw.DrawCube()
 		glEndList()
 
 		self.res1 = glGenLists(1)

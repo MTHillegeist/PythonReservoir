@@ -1,10 +1,11 @@
-from OpenGL import *
+#from OpenGL import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
 from math import sin,cos,sqrt,pi,floor
-from operator import add
+#from operator import add
+import operator
 import Draw
 
 class ResRegion(object):
@@ -90,7 +91,7 @@ def DrawGrid(res):
 				#print("Oil: %.1f Water; %.1f" % (oilWeight, wtrWeight))
 				oilColor = [oilWeight * x for x in red]
 				wtrColor = [wtrWeight * x for x in blue]
-				cell_color = list(map(add, oilColor, wtrColor))
+				cell_color = list(map(operator.add, oilColor, wtrColor))
 				#print(cell_color)
 				#print("(% f, % f, % f)" % ( x, y, z))
 				glColor3f(cell_color[0], cell_color[1], cell_color[2])
