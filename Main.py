@@ -21,7 +21,7 @@ class Camera:
 class Application(object):
 
 	def define_reservoir1():
-		res1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.3)
+		res1 = Reservoir.Reservoir(width=10, height=10, depth=10, cell_dim=0.4)
 
 		region = Reservoir.ResRegion()
 		region.iStart = 1
@@ -37,7 +37,22 @@ class Application(object):
 		return res1
 
 	def define_reservoir2():
-		return Reservoir.Reservoir(width=4, height=4, depth=4, cell_dim=0.8)
+		return Reservoir.Reservoir(width=4, height=4, depth=4, cell_dim=0.6)
+
+	def define_reservoir3():
+		res = Reservoir.Reservoir(width=10, height=10, depth=1, cell_dim=0.4)
+
+		region = Reservoir.ResRegion()
+		region.iStart = 1
+		region.iEnd = 8
+		region.jStart = 1
+		region.jEnd = 8
+		region.kStart = 0
+		region.kEnd = 0
+
+		res.SetCellsValue(region, "wtrPct", 100.0)
+		res.SetCellsValue(region, "oilPct", 0.0)
+		return res
 
 	def __init__(self):
 		super(Application, self).__init__()
@@ -50,10 +65,11 @@ class Application(object):
 		#glCullFace(GL_BACK)
 		#glCullFace(GL_FRONT_AND_BACK)
 		glEnable(GL_CULL_FACE)
+		glEnable(GL_DEPTH_TEST)
 		# glDisable(GL_CULL_FACE)
 		glMatrixMode(GL_MODELVIEW)
 
-		resSpecs1 = Application.define_reservoir1()
+		resSpecs1 = Application.define_reservoir3()
 
 		red = (0.8, 0.1, 0.0, 1.0)
 		blue = (0.0, 0.0, 1.0, 1.0)
@@ -135,7 +151,7 @@ class Application(object):
 		glMatrixMode(GL_MODELVIEW)
 
 glutInit()
-glutInitDisplayMode(GLUT_RGBA)
+glutInitDisplayMode(GLUT_DEPTH | GLUT_RGBA)
 glutInitWindowSize(500, 500)
 glutInitWindowPosition(0, 0)
 glutCreateWindow(b"OpenGL Testing")

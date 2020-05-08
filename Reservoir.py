@@ -35,11 +35,12 @@ class Reservoir(object):
 		self.depth = depth
 		self.cell_dim = cell_dim
 		#Creates grid with a new defualt Cell for every element.
-		self.grid = [[[Cell() for _ in range(width)] for _ in range(height)] for _ in range(depth)]
+		self.grid = [[[Cell() for _ in range(depth)] for _ in range(height)] for _ in range(width)]
 
 		# for i in range(self.width):
 		# 	for j in range(self.height):
 		# 		for k in range(self.depth):
+		# 			print("(% f, % f, % f)" % ( i, j, k))
 		# 			print(self.grid[i][j][k])
 
 	def SetCellsValue(self, region, source, value):
@@ -47,6 +48,7 @@ class Reservoir(object):
 			for j in range(region.jStart,region.jEnd + 1):
 				for k in range(region.kStart,region.kEnd + 1):
 					#Set properties of the current cell.
+					#print(i,j,k)
 					cell = self.grid[i][j][k]
 					cell.oilPct = 0.0
 					cell.wtrPct = 100.0

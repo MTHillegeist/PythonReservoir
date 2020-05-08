@@ -124,7 +124,6 @@ def draw_res(res):
 				x = (-res.width  / 2) *cell_dim + i * cell_dim + cell_dim / 2
 				y = (-res.height / 2) *cell_dim + j * cell_dim + cell_dim / 2
 				z = (-res.depth  / 2) *cell_dim + k * cell_dim + cell_dim / 2
-				print("X:{} Y:{} Z:{}", x, y, z)
 				glTranslatef(x, y, z)
 				oilWeight = res.grid[i][j][k].oilPct / 100.0
 				wtrWeight = res.grid[i][j][k].wtrPct / 100.0
@@ -132,16 +131,16 @@ def draw_res(res):
 				oilColor = [oilWeight * x for x in red]
 				wtrColor = [wtrWeight * x for x in blue]
 				cell_color = list(map(operator.add, oilColor, wtrColor))
-				#print(cell_color)
+				print(cell_color)
 				#print("(% f, % f, % f)" % ( x, y, z))
 				glColor3f(cell_color[0], cell_color[1], cell_color[2])
 
 				# glPushMatrix()
 				# glScalef(cell_dim, cell_dim, cell_dim)
-				# Draw.DrawCube()
+				# DrawCube()
 				# glPopMatrix()
-				#glutSolidCube(cell_dim)
-				glutWireCube(cell_dim)
+				glutSolidCube(cell_dim)
+				#glutWireCube(cell_dim)
 				glPopMatrix()
 		#input()
 
