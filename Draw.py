@@ -131,7 +131,7 @@ def draw_res(res):
 				oilColor = [oilWeight * x for x in red]
 				wtrColor = [wtrWeight * x for x in blue]
 				cell_color = list(map(operator.add, oilColor, wtrColor))
-				print(cell_color)
+				#print(cell_color)
 				#print("(% f, % f, % f)" % ( x, y, z))
 				glColor3f(cell_color[0], cell_color[1], cell_color[2])
 

@@ -7,6 +7,7 @@ import math
 from math import sin,cos,sqrt,pi
 import Reservoir
 import Draw
+import numpy as np
 
 print(sys.version)
 print("Testing of Main.py")
@@ -14,9 +15,9 @@ print("Testing of Main.py")
 class Camera:
 	def __init__(self):
 		super(Camera, self).__init__()
-		self.target = (0, 0, 0)
-		self.pos = (0, 2, 2)
-		self.up = (0, 1, 0)
+		self.target = [0, 0, 0]
+		self.pos = [0, 2, 2]
+		self.up = [0, 1, 0]
 
 class Application(object):
 
@@ -60,6 +61,9 @@ class Application(object):
 		self.runTime = 0
 		self.angle = 0
 		self.camera = Camera()
+		self.mouse_move_valid = False
+		self.mouse_last_x = None
+		self.mouse_last_y = None
 
 		#Culling type. GL_BACK is the default.
 		#glCullFace(GL_BACK)
@@ -102,7 +106,7 @@ class Application(object):
 		self.lastFrameTime = time.time()
 		self.runTime = self.runTime + delta_t
 
-		self.angle += 20.0 * delta_t % 360
+		#self.angle += 20.0 * delta_t % 360
 
 		self.draw()
 		#self.draw_cube_test()
@@ -150,6 +154,69 @@ class Application(object):
 		glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0)
 		glMatrixMode(GL_MODELVIEW)
 
+	def keyboard_input(self, key, x, y):
+		pass
+
+	#Pulled from stackoverflow.
+	def rotation_matrix(axis, theta):
+	    """
+	    Return the rotation matrix associated with counterclockwise rotation about
+	    the given axis by theta radians.
+	    """
+	    axis = np.asarray(axis)
+	    axis = axis / sqrt(np.dot(axis, axis))
+	    a = cos(theta / 2.0)
+	    b, c, d = -axis * sin(theta / 2.0)
+	    aa, bb, cc, dd = a * a, b * b, c * c, d * d
+	    bc, ad, ac, ab, bd, cd = b * c, a * d, a * c, a * b, b * d, c * d
+	    return np.array([[aa + bb - cc - dd, 2 * (bc + ad), 2 * (bd - ac)],
+	                     [2 * (bc - ad), aa + cc - bb - dd, 2 * (cd + ab)],
+	                     [2 * (bd + ac), 2 * (cd - ab), aa + dd - bb - cc]])
+
+	def mouse_move(self, x, y):
+		if(self.mouse_move_valid):
+			dx = x - self.mouse_last_x
+			dy = y - self.mouse_last_y
+			angle_theta = -dx/100
+			angle_phi = dy/100
+
+			pos_vec = np.array(self.camera.pos)
+			up_vec = np.array(self.camera.up)
+			cross_vec = np.cross( pos_vec, up_vec)
+			#Normalize the vector.
+			cross_vec = cross_vec / math.sqrt(np.dot(cross_vec, cross_vec))
+
+			rot_matrix_x = np.array([[cos(angle_theta), 0, sin(angle_theta)],
+					                [0, 1, 0],
+									[-sin(angle_theta), 0, cos(angle_theta)]])
+
+			rot_matrix_cross = Application.rotation_matrix(cross_vec, angle_phi)
+
+			rot_res = rot_matrix_cross @ rot_matrix_x @ pos_vec
+			self.camera.pos[0] = rot_res[0]
+			self.camera.pos[1] = rot_res[1]
+			self.camera.pos[2] = rot_res[2]
+
+			#self.angle += dx / 2.0
+			self.mouse_last_x = x
+			self.mouse_last_y = y
+
+	def mouse_input(self, button, state, x, y):
+		if(button == 0):
+			self.mouse_move_valid = (state == GLUT_DOWN)
+			self.mouse_last_x = x
+			self.mouse_last_y = y
+
+		if(button == 3):
+			print(self.camera.pos)
+			self.camera.pos[1] += 0.1
+			self.camera.pos[2] += 0.1
+		if(button == 4):
+			self.camera.pos[1] -= 0.1
+			self.camera.pos[2] -= 0.1
+			print(self.camera.pos)
+
+
 glutInit()
 glutInitDisplayMode(GLUT_DEPTH | GLUT_RGBA)
 glutInitWindowSize(500, 500)
@@ -158,5 +225,8 @@ glutCreateWindow(b"OpenGL Testing")
 app = Application()
 glutDisplayFunc(app.main_loop)
 glutReshapeFunc(app.reshape)
+glutKeyboardFunc(app.keyboard_input)
+glutMotionFunc(app.mouse_move)
+glutMouseFunc(app.mouse_input)
 glutIdleFunc(app.main_loop)
 glutMainLoop()
