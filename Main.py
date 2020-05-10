@@ -73,7 +73,7 @@ class Application(object):
 		# glDisable(GL_CULL_FACE)
 		glMatrixMode(GL_MODELVIEW)
 
-		resSpecs1 = Application.define_reservoir3()
+		resSpecs1 = Application.define_reservoir1()
 
 		red = (0.8, 0.1, 0.0, 1.0)
 		blue = (0.0, 0.0, 1.0, 1.0)

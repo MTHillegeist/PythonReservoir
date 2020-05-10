@@ -24,6 +24,7 @@ class Cell(object):
 		self.porosity = 0.25
 		self.oilPct = 100.0
 		self.wtrPct = 0.0
+		self.pressure = 1.0
 
 class Reservoir(object):
 	"""docstring for Reservoir."""

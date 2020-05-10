@@ -139,8 +139,8 @@ def draw_res(res):
 				# glScalef(cell_dim, cell_dim, cell_dim)
 				# DrawCube()
 				# glPopMatrix()
-				glutSolidCube(cell_dim)
-				#glutWireCube(cell_dim)
+				#glutSolidCube(cell_dim)
+				glutWireCube(cell_dim)
 				glPopMatrix()
 		#input()
 
